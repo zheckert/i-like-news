@@ -50,3 +50,5 @@ newsRouter.delete("/newsId", (req, res, next) => {
         }
     )
 })
+
+module.exports = newsRouter
