@@ -2,10 +2,12 @@ const express = require("express")
 const authRouter = express.Router()
 const User = require("../client/models/user.js")
 const jwt = require("jsonwebtoken")
+const auth = require("basic-auth")
+const user = require("../client/models/user.js")
 
 // Signup Route
 authRouter.post("/signup", (request, response, next) => {
-    User.findOne({ username: request.body.username }, (error, user) => {
+    User.findOne({ username: request.body.username.toLowerCase() }, (error, user) => {
         if(error){
             response.status(500)
             return next(error)
@@ -24,6 +26,26 @@ authRouter.post("/signup", (request, response, next) => {
             const token = jwt.sign(savedUser.toObject(), process.env.SECRET)
             return response.status(201).send({ token, user: savedUser })
         })
+    })
+})
+
+// Login Route
+authRouter.post("/login", (request, response, next) => {
+    User.findOne({ username: request.body.username.toLowerCase()}, (error, user) => {
+        if(error){
+            response.status(500)
+            return next(error)
+        }
+        if(!user){
+            response.status(403)
+            return next( new Error("Hmmm, something's not right. Please try again!"))
+        }
+        if(request.body.password !== user.password){
+            response.status(403)
+            return next(new Error("Hmmm, something's not right. Please try again!"))
+        }
+        const token = jwt.sign(user.toObject(), process.env.SECRET)
+        response.status(200).send({ token, user })
     })
 })
 
