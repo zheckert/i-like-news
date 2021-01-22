@@ -13,7 +13,7 @@ app.use(morgan("dev"))
 //for deployment below:
 // app.use(express.static(path.join(__dirname, "client", "build")))
 
-mongoose.connect("mongodb://host:27017/newsdb",
+mongoose.connect("mongodb://localhost:27017/newsdb",
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,

@@ -15,7 +15,7 @@ authRouter.post("/signup", (request, response, next) => {
             response.status(403)
             return next(new Error("Username already exists."))
         }
-        const newUser = new User(req.body)
+        const newUser = new User(request.body)
         newUser.save((error, savedUser) => {
             if(error){
                 response.status(500)
