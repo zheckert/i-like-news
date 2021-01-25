@@ -1,9 +1,9 @@
 const express = require("express")
 const authRouter = express.Router()
-const User = require("../client/models/user.js")
+const User = require("../models/user.js")
 const jwt = require("jsonwebtoken")
 const auth = require("basic-auth")
-const user = require("../client/models/user.js")
+const user = require("../models/user.js")
 
 // Signup Route
 authRouter.post("/signup", (request, response, next) => {

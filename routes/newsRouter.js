@@ -1,6 +1,6 @@
 const express = require("express")
 const newsRouter = express.Router()
-const News = require("../client/models/news")
+const News = require("../models/news")
 
 newsRouter.get("/", (request, response, next) => {
     News.find((error, news) => {

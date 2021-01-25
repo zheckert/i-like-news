@@ -24,3 +24,5 @@ yarn-error.log*
 *.orig
 .idea/
 .vscode/
+
+proposal.docx
