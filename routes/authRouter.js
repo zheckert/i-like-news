@@ -23,8 +23,8 @@ authRouter.post("/signup", (request, response, next) => {
                 response.status(500)
                 return next(error)
             }
-            const token = jwt.sign(savedUser.toObject(), process.env.SECRET)
-            return response.status(201).send({ token, user: savedUser })
+            const token = jwt.sign(savedUser.withoutPassword(), process.env.SECRET)
+            return response.status(201).send({ token, user: savedUser.withoutPassword() })
         })
     })
 })
@@ -40,12 +40,19 @@ authRouter.post("/login", (request, response, next) => {
             response.status(403)
             return next( new Error("Hmmm, something's not right. Please try again!"))
         }
-        if(request.body.password !== user.password){
-            response.status(403)
-            return next(new Error("Hmmm, something's not right. Please try again!"))
-        }
-        const token = jwt.sign(user.toObject(), process.env.SECRET)
-        response.status(200).send({ token, user })
+
+        user.checkPassword(request.body.password, (error, isMatch) => {
+            if(error){
+                response.status(403)
+                return next(new Error("Hmmm, something's not right. Please try again!"))
+            }
+            if(!isMatch){
+                response.status(403)
+                return next(new Error("Hmmm, something's not right. Please try again!"))
+            }
+            const token = jwt.sign(user.withoutPassword(), process.env.SECRET)
+            response.status(200).send({ token, user: user.withoutPassword() })
+        })
     })
 })
 

@@ -2,6 +2,7 @@ const express = require("express")
 const newsRouter = express.Router()
 const News = require("../models/news")
 
+//gets all news, but make sure it's for logged in users only, thank you goodbye
 newsRouter.get("/", (request, response, next) => {
     News.find((error, news) => {
         if(error){
