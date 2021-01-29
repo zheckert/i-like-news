@@ -51,7 +51,7 @@ authRouter.post("/login", (request, response, next) => {
                 return next(new Error("Hmmm, something's not right. Please try again!"))
             }
             const token = jwt.sign(user.withoutPassword(), process.env.SECRET)
-            response.status(200).send({ token, user: user.withoutPassword() })
+            response.status(201).send({ token, user: user.withoutPassword() })
         })
     })
 })

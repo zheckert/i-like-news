@@ -12,15 +12,10 @@ export const Profile = () => {
             <h1>{username}'s Profile</h1>
             <div>
                 <NewsForm addNews={addNews} />
-                This shows all your posts and how popular they are.
-                All stories
-                comments
-                upvotes
             </div>
             <div>
                 Your Top Posts
                 <NewsFeed news={news}/>
-
             </div>
         </div>
     )

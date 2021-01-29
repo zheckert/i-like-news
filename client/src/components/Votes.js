@@ -4,10 +4,13 @@ export const Votes = () => {
     return(
         <div>
             <div>
-                Upvotes
+                Total Votes: 0
             </div>
             <div>
-                Downvotes
+                Upvote
+            </div>
+            <div>
+                Downvote
             </div>
         </div>
     )

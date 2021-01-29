@@ -42,7 +42,6 @@ export const UserProvider = (props) => {
         axios.post("/auth/login", credentials)
             .then(response => {
                 const { user, token } = response.data
-                console.log(localStorage)
                 localStorage.setItem("token", token)
                 localStorage.setItem("user", JSON.stringify(user))
                 getUserNews()

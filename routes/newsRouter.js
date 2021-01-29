@@ -2,26 +2,30 @@ const express = require("express")
 const newsRouter = express.Router()
 const News = require("../models/news")
 
-//gets all news, but make sure it's for logged in users only, thank you goodbye
+//get all news
 newsRouter.get("/", (request, response, next) => {
-    News.find((error, news) => {
-        if(error){
-            response.status(500)
-            return next(error)
-        }
-        return response.status(200).send(news)
-    })
+    News.find()
+        .populate("user", "username")
+        .exec((error, news) => {
+                if(error){
+                    response.status(500)
+                    return next(error)
+                }
+                return response.status(200).send(news)
+            })
 })
 
 //all posts from a specific user
 newsRouter.get("/user", (request, response, next) => {
-    News.find({ user: request.user._id }, (error, userPosts) => {
-        if(error){
-            response.status(500)
-            return next(error)        
-        }
-        return response.status(200).send(userPosts)
-    })
+    News.find({ user: request.user._id },)
+        .populate("user", "username")
+        .exec((error, userPosts) => {
+                if(error){
+                    response.status(500)
+                    return next(error)
+                }
+                return response.status(200).send(userPosts)
+            })
 })
 
 newsRouter.post("/", (request, response, next) => {
@@ -32,7 +36,7 @@ newsRouter.post("/", (request, response, next) => {
             response.status(500)
             return next(error)
         }
-        return response.status(200).send(savedPost)
+        return response.status(201).send(savedPost)
     })
 })
 
@@ -46,7 +50,7 @@ newsRouter.put("/:newsId", (request, response, next) => {
                 response.status(500)
                 return next(error)
             }
-            return response.status(200).send(editedPost)
+            return response.status(201).send(editedPost)
         }
     )
 })
@@ -59,7 +63,7 @@ newsRouter.delete("/:newsId", (request, response, next) => {
                 response.status(500)
                 return next(error)
             }
-            return response.status(200).send(`"${deletedPost.title}" removed successfully!`)
+            return response.status(201).send(`"${deletedPost.title}" removed successfully!`)
         }
     )
 })
