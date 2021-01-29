@@ -60,7 +60,7 @@ export const UserProvider = (props) => {
         setUserState({
             user: {},
             token: "",
-            news: []
+            userNews: []
         })
     }
 
@@ -78,12 +78,20 @@ export const UserProvider = (props) => {
         }))
     }
 
+    //all news
+    const getNews = () => {
+        userAxios.get("/api/news")
+            .then(response => setAllNews(response.data))
+            .catch(error => console.log(error))
+    }
+
+    //user-specific news
     const getUserNews = () => {
         userAxios.get("/api/news/user")
             .then(response => {
                 setUserState(prevState => ({
                     ...prevState,
-                    news: response.data
+                    userNews: response.data
                 }))
             })
             .catch(error => console.log(error.response.data.errorMessage))
@@ -98,12 +106,6 @@ export const UserProvider = (props) => {
         }))
     })
         .catch(error => console.log(error.response.data.errorMessage))
-    }
-
-    const getNews = () => {
-        userAxios.get("/api/news")
-            .then(response => setAllNews(response.data))
-            .catch(error => console.log(error))
     }
 
     return(

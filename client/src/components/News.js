@@ -1,9 +1,8 @@
-import React, { useContext } from "react"
-import { UserContext } from "../context/UserProvider"
+import React from "react"
 import { Votes } from "./Votes"
 
 export const News = (props) => {
-    
+
     const { title, description, username, _id } = props
 
     return(
