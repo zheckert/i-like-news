@@ -25,12 +25,7 @@ export const Profile = () => {
             <div>
                 <NewsForm addNews={addNews} />
             </div>
-            {/* <div>
-                Your Top Posts
-                <NewsFeed news={news}/>
-            </div> */}
             <div>
-                {/* display user posts below: */}
                 {userNews.map(post =>
                     <News
                         {...post}

@@ -1,3 +1,4 @@
+const { response } = require("express")
 const express = require("express")
 const newsRouter = express.Router()
 const News = require("../models/news")
@@ -40,6 +41,7 @@ newsRouter.post("/", (request, response, next) => {
     })
 })
 
+//edit a news post
 newsRouter.put("/:newsId", (request, response, next) => {
     News.findOneAndUpdate(
         { _id: request.params.newsId, user: request.user._id },
@@ -55,6 +57,7 @@ newsRouter.put("/:newsId", (request, response, next) => {
     )
 })
 
+//delete a news post
 newsRouter.delete("/:newsId", (request, response, next) => {
     News.findOneAndDelete(
         { _id: request.params.newsId, user: request.user._id },
@@ -64,6 +67,38 @@ newsRouter.delete("/:newsId", (request, response, next) => {
                 return next(error)
             }
             return response.status(201).send(`"${deletedPost.title}" removed successfully!`)
+        }
+    )
+})
+
+//upvote
+newsRouter.put("/upvote/:newsId", (request, response, next) => {
+    console.log(request.params.newsId)
+    News.findOneAndUpdate(
+        { _id: request.params.newsId },
+        { $inc: { votes: 1}},
+        { new: true },
+        (error, updatedPost) => {
+            if(error){
+                response.status(500)
+                return next(error)
+            }
+            return response.status(201).send(updatedPost)
+        }
+    )
+})
+//down
+newsRouter.put("/downvote/:newsId", (request, response, next) => {
+    News.findOneAndUpdate(
+        { _id: request.params.newsId },
+        { $inc: { votes: -1}},
+        { new: true },
+        (error, updatedPost) => {
+            if(error){
+                response.status(500)
+                return next(error)
+            }
+            return response.status(201).send(updatedPost)
         }
     )
 })

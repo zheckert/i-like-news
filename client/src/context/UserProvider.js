@@ -1,6 +1,8 @@
 import React, { useState } from "react"
 import axios from "axios"
 
+// I need to move some stuff to another context provider.
+
 export const UserContext = React.createContext()
 
 const userAxios = axios.create()
@@ -104,8 +106,14 @@ export const UserProvider = (props) => {
         .catch(error => console.log(error.response.data.errorMessage))
     }
 
+    const upVote = (newsId) => {
+        userAxios.put(`/api/news/upvote/${newsId}`)
+        .then(response => console.log(response.data))
+        .catch(error => console.log(error))
+    }
+
     return(
-        <UserContext.Provider value={{...userState, signup, login, logout, addNews, getUserNews, removeAuthError, getNews, allNews, userNews}}>
+        <UserContext.Provider value={{...userState, signup, login, logout, addNews, getUserNews, removeAuthError, getNews, allNews, userNews, upVote}}>
             { props.children }
         </UserContext.Provider>
     )
