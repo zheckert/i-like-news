@@ -21,6 +21,7 @@ export const UserProvider = (props) => {
 
     const [userState, setUserState] = useState(initialState)
     const [allNews, setAllNews] = useState([])
+    const [userNews, setUserNews] = useState([])
 
     const signup = (credentials) => {
         axios.post("/auth/signup", credentials)
@@ -60,7 +61,7 @@ export const UserProvider = (props) => {
         setUserState({
             user: {},
             token: "",
-            userNews: []
+            news: []
         })
     }
 
@@ -88,13 +89,8 @@ export const UserProvider = (props) => {
     //user-specific news
     const getUserNews = () => {
         userAxios.get("/api/news/user")
-            .then(response => {
-                setUserState(prevState => ({
-                    ...prevState,
-                    userNews: response.data
-                }))
-            })
-            .catch(error => console.log(error.response.data.errorMessage))
+            .then(response => setUserNews(response.data))
+            .catch(error => console.log(error))
     }
 
     const addNews = (newNews) => {
@@ -109,7 +105,7 @@ export const UserProvider = (props) => {
     }
 
     return(
-        <UserContext.Provider value={{...userState, signup, login, logout, addNews, getUserNews, removeAuthError, getNews, allNews}}>
+        <UserContext.Provider value={{...userState, signup, login, logout, addNews, getUserNews, removeAuthError, getNews, allNews, userNews}}>
             { props.children }
         </UserContext.Provider>
     )

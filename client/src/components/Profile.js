@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react"
 import { UserContext } from "../context/UserProvider"
-import { NewsFeed } from "./NewsFeed"
 import { NewsForm } from "./NewsForm"
 import { News } from "./News"
 
@@ -13,6 +12,7 @@ export const Profile = () => {
         addNews,
         news,
         getUserNews, 
+        userNews
     } = useContext(UserContext)
 
     useEffect(() => {
@@ -25,24 +25,20 @@ export const Profile = () => {
             <div>
                 <NewsForm addNews={addNews} />
             </div>
-            <div>
+            {/* <div>
                 Your Top Posts
                 <NewsFeed news={news}/>
-            </div>
-            
-            {/* <div>
-                {userState.map(post => <News {...post} username={post.user?.username}
-                        key={post._id}/>)}
             </div> */}
-            {/* <div>
-                {news.map(post => 
-                    <News 
+            <div>
+                {/* display user posts below: */}
+                {userNews.map(post =>
+                    <News
                         {...post}
                         username={post.user?.username}
                         key={post._id}
                     />
                 )}
-            </div> */}
+            </div>
         </div>
     )
 }
