@@ -24,6 +24,9 @@ export const UserProvider = (props) => {
     const [userState, setUserState] = useState(initialState)
     const [allNews, setAllNews] = useState([])
     const [userNews, setUserNews] = useState([])
+    //maybe use this when it's not broken and dumb as heck
+    const [votes, setVotes] = useState("")
+    const [displayVotes, setDisplayVotes] = useState([])
 
     const signup = (credentials) => {
         axios.post("/auth/signup", credentials)
@@ -106,14 +109,29 @@ export const UserProvider = (props) => {
         .catch(error => console.log(error.response.data.errorMessage))
     }
 
+    //something wrong with the id. votes are going to everything. console log cabin needed
     const upVote = (newsId) => {
         userAxios.put(`/api/news/upvote/${newsId}`)
-        .then(response => console.log(response.data))
+        .then(response => setVotes(response.data.votes))
         .catch(error => console.log(error))
     }
 
+    const downVote = (newsId) => {
+        userAxios.put(`/api/news/downVote/${newsId}`)
+        .then(response => setVotes(response.data.votes))
+        .catch(error => console.log(error))
+    }
+
+    //what the ding-dong heck? How do I get in there and grab the vote number?
+    const getVotes = () => {
+        userAxios.get("/api/news/")
+            .then(response => console.log(response.data))
+            // .then(response => setDisplayVotes(response.data))
+            .catch(error => console.log(error))
+    }
+
     return(
-        <UserContext.Provider value={{...userState, signup, login, logout, addNews, getUserNews, removeAuthError, getNews, allNews, userNews, upVote}}>
+        <UserContext.Provider value={{...userState, signup, login, logout, addNews, getUserNews, removeAuthError, getNews, allNews, userNews, upVote, downVote, votes, setVotes, getVotes}}>
             { props.children }
         </UserContext.Provider>
     )

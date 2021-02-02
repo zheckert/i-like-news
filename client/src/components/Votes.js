@@ -1,4 +1,4 @@
-import React, {useContext} from "react"
+import React, {useContext, useEffect} from "react"
 import { UserContext } from "../context/UserProvider.js"
 
 //items will be sorted by total votes. This component doesn't handle that; it will be handled elsewhere.
@@ -9,18 +9,22 @@ import { UserContext } from "../context/UserProvider.js"
 
 export const Votes = () => {
 
-    const { upVote } = useContext(UserContext)
+    const { upVote, downVote, votes, getVotes } = useContext(UserContext)
+
+    // useEffect(() => {
+    //     getVotes()
+    //   }, [])
 
     return(
         <div>
             <div>
-                Total Votes: 0
+                Total Votes: {votes}
             </div>
             <div>
                 <button onClick={() => upVote()}>Upvote</button>
             </div>
             <div>
-                <button>Downvote</button>
+                <button onClick={() => downVote()}>Downvote</button>
             </div>
         </div>
     )

@@ -73,9 +73,9 @@ newsRouter.delete("/:newsId", (request, response, next) => {
 
 //upvote
 newsRouter.put("/upvote/:newsId", (request, response, next) => {
-    console.log(request.params)
+    console.log(response)
     News.findOneAndUpdate(
-        { newsId: request.params.newsId },
+        { newsId: request.params._id },
         { $inc: { votes: 1}},
         { new: true },
         (error, updatedPost) => {
@@ -90,7 +90,7 @@ newsRouter.put("/upvote/:newsId", (request, response, next) => {
 //down
 newsRouter.put("/downvote/:newsId", (request, response, next) => {
     News.findOneAndUpdate(
-        { _id: request.params.newsId },
+        { newsId: request.params._id },
         { $inc: { votes: -1}},
         { new: true },
         (error, updatedPost) => {
