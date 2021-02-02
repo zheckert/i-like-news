@@ -73,9 +73,9 @@ newsRouter.delete("/:newsId", (request, response, next) => {
 
 //upvote
 newsRouter.put("/upvote/:newsId", (request, response, next) => {
-    console.log(request.params.newsId)
+    console.log(request.params)
     News.findOneAndUpdate(
-        { _id: request.params.newsId },
+        { newsId: request.params.newsId },
         { $inc: { votes: 1}},
         { new: true },
         (error, updatedPost) => {
