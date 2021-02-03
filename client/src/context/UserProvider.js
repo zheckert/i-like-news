@@ -109,29 +109,21 @@ export const UserProvider = (props) => {
         .catch(error => console.log(error.response.data.errorMessage))
     }
 
-    //something wrong with the id. votes are going to everything. console log cabin needed
     const upVote = (newsId) => {
+        console.log(newsId)
         userAxios.put(`/api/news/upvote/${newsId}`)
-        .then(response => setVotes(response.data.votes))
+        .then(response => setAllNews(prevNews => prevNews.map(post => post._id === newsId ? response.data : post)))
         .catch(error => console.log(error))
     }
 
     const downVote = (newsId) => {
-        userAxios.put(`/api/news/downVote/${newsId}`)
-        .then(response => setVotes(response.data.votes))
+        userAxios.put(`/api/news/downvote/${newsId}`)
+        .then(response => setAllNews(prevNews => prevNews.map(post => post._id === newsId ? response.data : post)))
         .catch(error => console.log(error))
     }
 
-    //what the ding-dong heck? How do I get in there and grab the vote number?
-    const getVotes = () => {
-        userAxios.get("/api/news/")
-            .then(response => console.log(response.data))
-            // .then(response => setDisplayVotes(response.data))
-            .catch(error => console.log(error))
-    }
-
     return(
-        <UserContext.Provider value={{...userState, signup, login, logout, addNews, getUserNews, removeAuthError, getNews, allNews, userNews, upVote, downVote, votes, setVotes, getVotes}}>
+        <UserContext.Provider value={{...userState, signup, login, logout, addNews, getUserNews, removeAuthError, getNews, allNews, userNews, upVote, downVote, votes, setVotes}}>
             { props.children }
         </UserContext.Provider>
     )

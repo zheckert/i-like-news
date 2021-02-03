@@ -1,8 +1,6 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
-//You could add: dates,
-
 const newsSchema = new Schema({
     title: {
         type: String,

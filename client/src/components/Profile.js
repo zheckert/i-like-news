@@ -10,7 +10,6 @@ export const Profile = () => {
             username
         }, 
         addNews,
-        news,
         getUserNews, 
         userNews
     } = useContext(UserContext)
