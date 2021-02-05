@@ -1,10 +1,10 @@
 import React, { useContext } from "react"
 import { Switch, Route, Redirect } from "react-router-dom"
-import { Auth } from "./components/Auth"
+import { Auth } from "./components/authentication/Auth"
 import { Navbar } from "./components/Navbar"
 import { Public } from "./components/Public"
 import { Profile } from "./components/Profile"
-import { ProtectedRoute } from "./components/ProtectedRoute"
+import { ProtectedRoute } from "./components/authentication/ProtectedRoute"
 
 //make index.js to handle components so I don't have a stupid list 
     //     Each item can be upvoted or downvoted.

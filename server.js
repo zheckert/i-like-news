@@ -26,6 +26,7 @@ mongoose.connect("mongodb://localhost:27017/newsdb",
 app.use("/api", expressJwt( {secret: process.env.SECRET, algorithms: ['HS256'] }))
 app.use("/auth", require("./routes/authRouter"))
 app.use("/api/news", require("./routes/newsRouter"))
+app.use("/api/comment", require("./routes/commentRouter"))
 
 app.use((error, request, response, next) => {
     console.log(error)

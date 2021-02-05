@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { UserContext } from "../context/UserProvider.js"
+import { UserContext } from "../../context/UserProvider.js"
 
 //when a vote button is pressed, make sure the user hasn't voted before. 
 //if they have and press the same vote again, do nothing.

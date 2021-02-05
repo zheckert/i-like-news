@@ -12,7 +12,6 @@ const commentSchema = new Schema({
         ref: "User",
         required: true
     },
-    //tie it to the newspost, too!
     post: {
         type: Schema.Types.ObjectId,
         ref: "News",

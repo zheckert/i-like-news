@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react"
 import { UserContext } from "../context/UserProvider"
-import { NewsForm } from "./NewsForm"
-import { News } from "./News"
+import { NewsForm } from "./news/NewsForm"
+import { News } from "./news/News"
 
 //optional chaining added to username because I couldn't get it to render without it. This shouldn't affect anything, but I haven't used it before so I think I'll just leave the note there.
 

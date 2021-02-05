@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import axios from "axios"
 
-// I need to move some stuff to another context provider.
+// I could to move some stuff to another context provider.
 
 export const UserContext = React.createContext()
 
@@ -18,15 +18,15 @@ export const UserProvider = (props) => {
         user: JSON.parse(localStorage.getItem("user")) || {}, 
         token: localStorage.getItem("token") || "", 
         news: [],
+        comments: [],
         errorMessage: ""
     }
 
     const [userState, setUserState] = useState(initialState)
     const [allNews, setAllNews] = useState([])
     const [userNews, setUserNews] = useState([])
-    //maybe use this when it's not broken and dumb as heck
-    const [votes, setVotes] = useState("")
-    const [displayVotes, setDisplayVotes] = useState([])
+    const [votes, setVotes] = useState([])
+    const [comments, setComments] = useState([])
 
     const signup = (credentials) => {
         axios.post("/auth/signup", credentials)
@@ -66,7 +66,8 @@ export const UserProvider = (props) => {
         setUserState({
             user: {},
             token: "",
-            news: []
+            news: [],
+            comments: []
         })
     }
 
@@ -98,6 +99,8 @@ export const UserProvider = (props) => {
             .catch(error => console.log(error))
     }
 
+    
+
     const addNews = (newNews) => {
         userAxios.post("/api/news", newNews)
         .then(response => {
@@ -108,9 +111,25 @@ export const UserProvider = (props) => {
     })
         .catch(error => console.log(error.response.data.errorMessage))
     }
+    
+    const addComment = (newComment, id) => {
+        userAxios.post("/api/comment", newComment)
+        .then(response => {
+            setUserState(prevState => ({
+            ...prevState,
+            news: [...prevState.news, response.data]
+        }))
+    })
+        .catch(error => console.log(error.response.data.errorMessage))
+    }
+
+    const getComments = () => {
+        userAxios.get("/api/comment/user")
+            .then(response => setComments(response.data))
+            .catch(error => console.log(error))
+    }
 
     const upVote = (newsId) => {
-        console.log(newsId)
         userAxios.put(`/api/news/upvote/${newsId}`)
         .then(response => setAllNews(prevNews => prevNews.map(post => post._id === newsId ? response.data : post)))
         .catch(error => console.log(error))
@@ -123,7 +142,7 @@ export const UserProvider = (props) => {
     }
 
     return(
-        <UserContext.Provider value={{...userState, signup, login, logout, addNews, getUserNews, removeAuthError, getNews, allNews, userNews, upVote, downVote, votes, setVotes}}>
+        <UserContext.Provider value={{...userState, signup, login, logout, addNews, getUserNews, removeAuthError, getNews, allNews, userNews, upVote, downVote, votes, setVotes, addComment, getComments, comments }}>
             { props.children }
         </UserContext.Provider>
     )

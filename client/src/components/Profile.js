@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react"
 import { UserContext } from "../context/UserProvider"
-import { NewsForm } from "./NewsForm"
-import { News } from "./News"
+import { NewsForm } from "./news/NewsForm"
+import { News } from "./news/News"
 
 export const Profile = () => {
 
