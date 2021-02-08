@@ -1,13 +1,14 @@
 import React, { useContext } from "react"
-import { UserContext } from "../../context/UserProvider"
+import { newsContext } from "../../context/newsContext"
 import { Votes } from "../votes/Votes"
 import { CommentForm } from "../comments/CommentForm"
 import { Comment } from "../comments/Comment"
 
+//Currently, you're filtering through EVERY SINGLE comment and then displaying. You can condense this so it scales better in an enterprise-level app situation
+
 export const News = (props) => {
 
-    const { getComments, comments } = useContext(UserContext)
-
+    const { getComments, comments } = useContext(newsContext)
     const { title, description, username, _id, votes } = props
 
     return(
@@ -19,24 +20,12 @@ export const News = (props) => {
                 <p>Comments:</p>
                 <CommentForm id={_id}/>
                 <div>
-                    {comments.map(post => <Comment 
-                        {...post}
-                        key={post._id}
-                    />
+                    {comments.filter(comment => comment.post === _id).map(comment => 
+                        <Comment username={comment.user.username} comment={comment.comment} key={comment._id}/>
                     )}
-                </div>
-                
-                
+                </div> 
             </div>
             <p>Posted by: {username}</p>
         </div>
     )
 }
-
-// {sortedNews.map(post => 
-//     <News 
-//         {...post}
-//         username={post.user?.username}
-//         key={post._id}
-//     />
-// )}

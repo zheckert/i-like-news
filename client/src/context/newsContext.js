@@ -31,40 +31,31 @@ export const ContextProvider = (props) => {
     const getNews = () => {
         userAxios.get("/api/news")
             .then(response => setAllNews(response.data))
+            .then(getComments())
             .catch(error => console.log(error))
     }
 
-
     const addNews = (newNews) => {
         userAxios.post("/api/news", newNews)
-        .then(response => {
-            setUserState(prevState => ({
-            ...prevState,
-            news: [...prevState.news, response.data]
-        }))
-    })
+        //note: not mentioning response. not sure if that's appropriate but it works so there
+        .then(getNews())
         .catch(error => console.log(error.response.data.errorMessage))
     }
     
     const addComment = (newComment, id) => {
         userAxios.post("/api/comment", newComment)
-        .then(response => {
-            setUserState(prevState => ({
-            ...prevState,
-            news: [...prevState.news, response.data]
-        }))
-    })
+        .then(getComments())
         .catch(error => console.log(error.response.data.errorMessage))
     }
 
     const getComments = () => {
-        userAxios.get("/api/comment/user")
+        userAxios.get("/api/comment/")
             .then(response => setComments(response.data))
             .catch(error => console.log(error))
     }
 
-    const upVote = (newsId) => {
-        userAxios.put(`/api/news/upvote/${newsId}`)
+    const upVote = (newsId, userId) => {
+        userAxios.put(`/api/news/upvote/${newsId}?user=${userId}`)
         .then(response => setAllNews(prevNews => prevNews.map(post => post._id === newsId ? response.data : post)))
         .catch(error => console.log(error))
     }

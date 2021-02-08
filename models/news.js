@@ -10,10 +10,6 @@ const newsSchema = new Schema({
         type: String,
         required: true
     },
-    votes: {
-        type: Number,
-        default: 0
-    },
     user: {
         type: Schema.Types.ObjectId,
         ref: "User",

@@ -1,5 +1,6 @@
 import React, { useContext } from "react"
 import { newsContext } from "../../context/newsContext.js"
+import { UserContext } from "../../context/UserProvider"
 
 //when a vote button is pressed, make sure the user hasn't voted before. 
 //if they have and press the same vote again, do nothing.
@@ -11,6 +12,8 @@ import { newsContext } from "../../context/newsContext.js"
 export const Votes = (props) => {
 
     const { upVote, downVote } = useContext(newsContext)
+    const { user: {_id} } = useContext(UserContext)
+    //userState.user._id
 
     return(
         <div>
@@ -18,10 +21,10 @@ export const Votes = (props) => {
                 Total Votes: {props.votes}
             </div>
             <div>
-                <button onClick={() => upVote(props.id)}>Upvote</button>
+                <button onClick={() => upVote(props.id, _id)}>Upvote</button>
             </div>
             <div>
-                <button onClick={() => downVote(props.id)}>Downvote</button>
+                <button onClick={() => downVote(props.id, _id)}>Downvote</button>
             </div>
         </div>
     )

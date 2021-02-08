@@ -1,4 +1,6 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
+import { newsContext } from "../../context/newsContext"
+
 
 const initialInputs = {
     title: "",
@@ -7,7 +9,7 @@ const initialInputs = {
 
 export const NewsForm = (props) => {
     const [inputs, setInputs] = useState(initialInputs)
-    const { addNews } = props
+    const { addNews } = useContext(newsContext)
 
     const handleChange = (e) => {
         const {name, value} = e.target
