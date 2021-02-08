@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react"
-import { UserContext } from "../../context/UserProvider"
+import { newsContext } from "../../context/newsContext"
 
 const initialInputs = {
     comment: "",
@@ -7,7 +7,7 @@ const initialInputs = {
 
 export const CommentForm = (props) => {
     const [inputs, setInputs] = useState(initialInputs)
-    const { addComment } = useContext(UserContext)
+    const { addComment } = useContext(newsContext)
 
     const handleChange = (e) => {
         const {name, value} = e.target
@@ -25,6 +25,7 @@ export const CommentForm = (props) => {
 
     const { comment } = inputs
 
+    //use textarea for comments?
     return(
         <form onSubmit={handleSubmit}>
             <input

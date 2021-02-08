@@ -23,10 +23,7 @@ export const UserProvider = (props) => {
     }
 
     const [userState, setUserState] = useState(initialState)
-    const [allNews, setAllNews] = useState([])
     const [userNews, setUserNews] = useState([])
-    const [votes, setVotes] = useState([])
-    const [comments, setComments] = useState([])
 
     const signup = (credentials) => {
         axios.post("/auth/signup", credentials)
@@ -85,13 +82,6 @@ export const UserProvider = (props) => {
         }))
     }
 
-    //all news
-    const getNews = () => {
-        userAxios.get("/api/news")
-            .then(response => setAllNews(response.data))
-            .catch(error => console.log(error))
-    }
-
     //user-specific news
     const getUserNews = () => {
         userAxios.get("/api/news/user")
@@ -99,50 +89,8 @@ export const UserProvider = (props) => {
             .catch(error => console.log(error))
     }
 
-    
-
-    const addNews = (newNews) => {
-        userAxios.post("/api/news", newNews)
-        .then(response => {
-            setUserState(prevState => ({
-            ...prevState,
-            news: [...prevState.news, response.data]
-        }))
-    })
-        .catch(error => console.log(error.response.data.errorMessage))
-    }
-    
-    const addComment = (newComment, id) => {
-        userAxios.post("/api/comment", newComment)
-        .then(response => {
-            setUserState(prevState => ({
-            ...prevState,
-            news: [...prevState.news, response.data]
-        }))
-    })
-        .catch(error => console.log(error.response.data.errorMessage))
-    }
-
-    const getComments = () => {
-        userAxios.get("/api/comment/user")
-            .then(response => setComments(response.data))
-            .catch(error => console.log(error))
-    }
-
-    const upVote = (newsId) => {
-        userAxios.put(`/api/news/upvote/${newsId}`)
-        .then(response => setAllNews(prevNews => prevNews.map(post => post._id === newsId ? response.data : post)))
-        .catch(error => console.log(error))
-    }
-
-    const downVote = (newsId) => {
-        userAxios.put(`/api/news/downvote/${newsId}`)
-        .then(response => setAllNews(prevNews => prevNews.map(post => post._id === newsId ? response.data : post)))
-        .catch(error => console.log(error))
-    }
-
     return(
-        <UserContext.Provider value={{...userState, signup, login, logout, addNews, getUserNews, removeAuthError, getNews, allNews, userNews, upVote, downVote, votes, setVotes, addComment, getComments, comments }}>
+        <UserContext.Provider value={{...userState, signup, login, logout, getUserNews, removeAuthError, userNews }}>
             { props.children }
         </UserContext.Provider>
     )

@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { UserContext } from "../../context/UserProvider.js"
+import { newsContext } from "../../context/newsContext.js"
 
 //when a vote button is pressed, make sure the user hasn't voted before. 
 //if they have and press the same vote again, do nothing.
@@ -10,7 +10,7 @@ import { UserContext } from "../../context/UserProvider.js"
 
 export const Votes = (props) => {
 
-    const { upVote, downVote } = useContext(UserContext)
+    const { upVote, downVote } = useContext(newsContext)
 
     return(
         <div>

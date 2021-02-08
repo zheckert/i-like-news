@@ -1,12 +1,12 @@
 import React, { useEffect, useContext } from "react"
-import { UserContext } from "../context/UserProvider"
+import { newsContext } from "../context/newsContext"
 import { NewsForm } from "./news/NewsForm"
 import { News } from "./news/News"
 
 //optional chaining added to username because I couldn't get it to render without it. This shouldn't affect anything, but I haven't used it before so I think I'll just leave the note there.
 
 export const Public = () => {
-    const { addNews, getNews, allNews } = useContext(UserContext)
+    const { addNews, getNews, allNews } = useContext(newsContext)
     const sortedNews = allNews.sort((a, b) => b.votes - a.votes)
 
     useEffect(() => {
