@@ -14,6 +14,7 @@ export const News = (props) => {
     return(
         <div>
             <h1>{title}</h1>
+            <p>Posted by: {username}</p>
             <p>{description}</p>
             <p><Votes votes={votes} id={_id}/></p>
             <div>
@@ -25,7 +26,7 @@ export const News = (props) => {
                     )}
                 </div> 
             </div>
-            <p>Posted by: {username}</p>
+            
         </div>
     )
 }

@@ -55,7 +55,7 @@ export const ContextProvider = (props) => {
     }
 
     const upVote = (newsId, userId) => {
-        userAxios.put(`/api/news/upvote/${newsId}?user=${userId}`)
+        userAxios.put(`/api/news/upvote/${newsId}`)
         .then(response => setAllNews(prevNews => prevNews.map(post => post._id === newsId ? response.data : post)))
         .catch(error => console.log(error))
     }

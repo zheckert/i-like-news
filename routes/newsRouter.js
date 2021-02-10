@@ -1,8 +1,7 @@
-const { response } = require("express")
 const express = require("express")
-const { Votes } = require("../client/src/components/votes/Votes")
 const newsRouter = express.Router()
 const News = require("../models/news")
+const Votes = require("../models/votes")
 
 //get all news
 newsRouter.get("/", (request, response, next) => {
@@ -74,12 +73,11 @@ newsRouter.delete("/:newsId", (request, response, next) => {
 
 //upvote
 newsRouter.put("/upvote/:newsId", (request, response, next) => {
-    let user = request.query.user
+    let user = request.user
     Votes.findOneAndUpdate(
         { _id: request.params.newsId },
-        { $inc: { votes: 1}},
+        { $inc: { votes: 1}, user: user},
         { new: true },
-        { user: user },
         (error, updatedPost) => {
             if(error){
                 response.status(500)
