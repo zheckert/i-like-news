@@ -54,10 +54,11 @@ export const ContextProvider = (props) => {
             .catch(error => console.log(error))
     }
 
-    const upVote = (newsId, userId) => {
+    const upVote = (newsId) => {
         userAxios.put(`/api/news/upvote/${newsId}`)
-        .then(response => setAllNews(prevNews => prevNews.map(post => post._id === newsId ? response.data : post)))
-        .catch(error => console.log(error))
+            //make downvote the same
+            .then(response => setAllNews(prevNews => prevNews.map(post => post._id === newsId ? response.data : post)))
+            .catch(error => console.log(error))
     }
 
     const downVote = (newsId) => {

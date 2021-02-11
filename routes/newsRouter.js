@@ -71,52 +71,15 @@ newsRouter.delete("/:newsId", (request, response, next) => {
     )
 })
 
-//upvote- although I can probably account for all vote types with a single route I think
-newsRouter.post("/vote/:newsId", (request, response, next) => {
-    //basically, what will happen is that a user will vote, their username and news will be compared to an array. Based on that data, 3 things can happnen:
-    //1. the user hasn't voted, and their id and vote type(up or down) is taken and pushed to the news item's array
-    //2. the user has voted, and clicked the same arrow. This would remove their id and vote type from the news item's array
-    //3. the user has voted, and clicked the opposite arrow of their inital vote. This removes their initial id and vote type (or maybe alters the vote type?)
+//maybe I should have one path and let the vote type be the differentiator? the button pressing on the front end will influence vote.voteType
+//upvote
+newsRouter.put("/upvote/:newsId", (request, response, next) => {
     let user = request.user
-
-    if( user && voteType === request.body.user){
-        News.insertOne({user: user, vote: "Up"},
-            (error, updatedPost) => {
-                if(error){
-                    response.status(500)
-                    return next(error)
-                }
-                return response.status(201).send(updatedPost)
-            }
-        )
-    }else if( user != request.body.user){
-        News.replaceOne({user: user, vote: "Up"},
-        (error, updatedPost) => {
-            if(error){
-                response.status(500)
-                return next(error)
-            }
-            return response.status(201).send(updatedPost)
-        })
-    }else{
-        News.replaceOne({user: user, vote: "Up"},
-        (error, updatedPost) => {
-            if(error){
-                response.status(500)
-                return next(error)
-            }
-            return response.status(201).send(updatedPost)
-        })
-    }
-    
-
-  
-    Votes.findOneAndUpdate(
+    News.findOneAndUpdate(
         { _id: request.params.newsId },
-        { $inc: { votes: 1}, user: user},
-        { new: true },
+        { $addToSet: { votes: { user: user, voteType: "Up" } } },
         (error, updatedPost) => {
-            if(error){
+            if (error) {
                 response.status(500)
                 return next(error)
             }
@@ -127,12 +90,12 @@ newsRouter.post("/vote/:newsId", (request, response, next) => {
 
 //down
 newsRouter.put("/downvote/:newsId", (request, response, next) => {
+    let user = request.user
     News.findOneAndUpdate(
         { _id: request.params.newsId },
-        { $inc: { votes: -1}},
-        { new: true },
+        { $addToSet: { votes: { user: user, voteType: "Down" } } },
         (error, updatedPost) => {
-            if(error){
+            if (error) {
                 response.status(500)
                 return next(error)
             }
