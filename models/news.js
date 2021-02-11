@@ -6,6 +6,9 @@ const newsSchema = new Schema({
         type: String,
         required: true
     },
+    votes:{
+        type: []
+    },
     description: {
         type: String,
         required: true

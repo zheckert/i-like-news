@@ -33,6 +33,7 @@ userSchema.pre("save", function(next){
     next()
   })
 })
+
 //check encrypted password
 userSchema.methods.checkPassword = function(passwordAttempt, callback){
   bcrypt.compare(passwordAttempt, this.password, (error, isMatch) => {
