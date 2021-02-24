@@ -1,7 +1,7 @@
 const express = require("express")
 const newsRouter = express.Router()
 const News = require("../models/news")
-const Votes = require("../models/votes")
+// const Votes = require("../models/votes")
 
 //get all news
 newsRouter.get("/", (request, response, next) => {
