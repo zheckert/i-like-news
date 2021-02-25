@@ -24,8 +24,8 @@ export const ContextProvider = (props) => {
     const [userState, setUserState] = useState(initialState)
     const [allNews, setAllNews] = useState([])
     const [userNews, setUserNews] = useState([])
-    const [votes, setVotes] = useState([])
     const [comments, setComments] = useState([])
+    const [totalVotes, setTotalVotes] = useState(0)
 
     //all news
     const getNews = () => {
@@ -55,20 +55,37 @@ export const ContextProvider = (props) => {
     }
 
     const upVote = (newsId) => {
+        console.log("I Voted")
         userAxios.put(`/api/news/upvote/${newsId}`)
-            //make downvote the same
-            .then(response => setAllNews(prevNews => prevNews.map(post => post._id === newsId ? response.data : post)))
+            .then(response => {
+                    console.log(response.data)
+                    setAllNews(prevNews => prevNews.map(post => post._id === newsId ? response.data : post))
+                    getNews()
+                }
+            )
             .catch(error => console.log(error))
     }
 
     const downVote = (newsId) => {
+        console.log("I down Voted")
         userAxios.put(`/api/news/downvote/${newsId}`)
-        .then(response => setAllNews(prevNews => prevNews.map(post => post._id === newsId ? response.data : post)))
+        .then(response => {
+            setAllNews(prevNews => prevNews.map(post => post._id === newsId ? response.data : post))
+            getNews()
+        }
+    )
         .catch(error => console.log(error))
     }
 
+    const voteCalculator = (post) => {
+        console.log(post)
+        let upVotes = post.votes.filter(vote => vote.voteType === "Up").length
+	    let downVotes = post.votes.filter(vote => vote.voteType === "Down").length
+        return upVotes - downVotes
+    }
+
     return(
-        <newsContext.Provider value={{...userState, addNews, getNews, allNews, userNews, upVote, downVote, votes, setVotes, addComment, getComments, comments }}>
+        <newsContext.Provider value={{...userState, addNews, getNews, allNews, userNews, upVote, downVote, addComment, getComments, comments, voteCalculator}}>
             { props.children }
         </newsContext.Provider>
     )

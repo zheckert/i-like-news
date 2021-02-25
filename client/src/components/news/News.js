@@ -16,7 +16,7 @@ export const News = (props) => {
             <h1>{title}</h1>
             <p>Posted by: {username}</p>
             <p>{description}</p>
-            <p><Votes votes={votes} id={_id}/></p>
+            <p><Votes votes={votes} id={_id} title={title}/></p>
             <div>
                 <p>Comments:</p>
                 <CommentForm id={_id}/>

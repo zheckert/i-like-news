@@ -3,15 +3,19 @@ import { newsContext } from "../context/newsContext"
 import { NewsForm } from "./news/NewsForm"
 import { News } from "./news/News"
 
-//optional chaining added to username because I couldn't get it to render without it. This shouldn't affect anything, but I haven't used it before so I think I'll just leave the note there.
+// optional chaining added to username because I couldn't get it to render without it. This shouldn't affect anything, but I haven't used it before so I think I'll just leave the note there.
 
 export const Public = () => {
-    const { addNews, getNews, allNews } = useContext(newsContext)
-    const sortedNews = allNews.sort((a, b) => b.votes - a.votes)
+    const { addNews, getNews, allNews, voteCalculator } = useContext(newsContext)
+    
 
+    const sortedNews = allNews.sort((a, b) => b.votes - a.votes)
+    
     useEffect(() => {
         getNews()
       }, [])
+
+    console.log("the vote number", voteCalculator(allNews[0]))
 
     return(
         <div>
@@ -21,7 +25,7 @@ export const Public = () => {
                 </div>
             <h2>All Posts</h2>
             <div>
-                {sortedNews.map(post => 
+                {allNews.map(post => 
                     <News 
                         {...post}
                         username={post.user?.username}
