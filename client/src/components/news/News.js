@@ -10,6 +10,7 @@ export const News = (props) => {
 
     const { getComments, comments } = useContext(newsContext)
     const { title, description, username, _id, votes } = props
+    
 
     return(
         <div>
@@ -20,13 +21,14 @@ export const News = (props) => {
             <div>
                 <p>Comments:</p>
                 <CommentForm id={_id}/>
+                {console.log("comment", comments)}
                 <div>
+                    {/* {console.log("This is my comment log", comments)} */}
                     {comments.filter(comment => comment.post === _id).map(comment => 
-                        <Comment username={comment.user.username} comment={comment.comment} key={comment._id}/>
+                        <Comment userId={comment.user._id} username={comment.user.username} comment={comment.comment} commentId={comment.post} key={comment._id}/>
                     )}
                 </div> 
-            </div>
-            
+            </div> 
         </div>
     )
 }

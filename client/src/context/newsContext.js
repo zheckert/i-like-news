@@ -54,6 +54,22 @@ export const ContextProvider = (props) => {
             .catch(error => console.log(error))
     }
 
+    const editComment = (commentId) => {
+        userAxios.put(`/api/comment/${commentId}`)
+            .then(response => {
+                setComments(prevComment => prevComment.map(comment => comment._id !== commentId ? comment : response.data))
+            })
+            .catch(error => console.log(error))
+    }
+
+    const deleteComment = (commentId) => {
+        userAxios.delete(`/api/comment/${commentId}`)
+            .then(response => {
+                setComments(prevComments => prevComments.filter(comment => comment._id !== commentId))
+            })
+            .catch(error => console.log(error))
+    }
+
     const upVote = (newsId) => {
         console.log("I Voted")
         userAxios.put(`/api/news/upvote/${newsId}`)
@@ -78,14 +94,13 @@ export const ContextProvider = (props) => {
     }
 
     const voteCalculator = (post) => {
-        console.log(post)
         let upVotes = post.votes.filter(vote => vote.voteType === "Up").length
 	    let downVotes = post.votes.filter(vote => vote.voteType === "Down").length
         return upVotes - downVotes
     }
 
     return(
-        <newsContext.Provider value={{...userState, addNews, getNews, allNews, userNews, upVote, downVote, addComment, getComments, comments, voteCalculator}}>
+        <newsContext.Provider value={{...userState, addNews, getNews, allNews, userNews, upVote, downVote, addComment, getComments, editComment, deleteComment, comments, voteCalculator}}>
             { props.children }
         </newsContext.Provider>
     )

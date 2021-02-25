@@ -7,7 +7,7 @@ const initialInputs = {
 
 export const CommentForm = (props) => {
     const [inputs, setInputs] = useState(initialInputs)
-    const { addComment } = useContext(newsContext)
+    const { addComment, } = useContext(newsContext)
 
     const handleChange = (e) => {
         const {name, value} = e.target
@@ -35,7 +35,7 @@ export const CommentForm = (props) => {
                 onChange={handleChange}
                 placeholder="Type your goofy thoughts out here"
             />
-            <button>Post</button>
+            <button onClick={handleSubmit}>Post</button>
         </form>
     )
 

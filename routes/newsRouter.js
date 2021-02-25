@@ -42,9 +42,11 @@ newsRouter.post("/", (request, response, next) => {
 })
 
 //edit a news post
+//tried passing in post after user but it didn't work: post: request.post 
 newsRouter.put("/:newsId", (request, response, next) => {
     News.findOneAndUpdate(
-        { _id: request.params.newsId, user: request.user._id },
+        console.log("edit log", request.post),
+        { _id: request.params.newsId, user: request.user._id, post: request.post, },
         request.body,
         { new: true },
         (error, editedPost) => {
@@ -58,7 +60,7 @@ newsRouter.put("/:newsId", (request, response, next) => {
 })
 
 //delete a news post
-newsRouter.delete("/:newsId", (request, response, next) => {
+newsRouter.delete("comment/:newsId", (request, response, next) => {
     News.findOneAndDelete(
         { _id: request.params.newsId, user: request.user._id },
         (error, deletedPost) => {

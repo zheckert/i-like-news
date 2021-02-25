@@ -15,7 +15,7 @@ export const Public = () => {
         getNews()
       }, [])
 
-    console.log("the vote number", voteCalculator(allNews[0]))
+    // console.log("the vote number", voteCalculator(allNews[0]))
 
     return(
         <div>
