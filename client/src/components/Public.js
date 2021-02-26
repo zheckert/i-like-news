@@ -8,9 +8,11 @@ import { News } from "./news/News"
 export const Public = () => {
     const { addNews, getNews, allNews, voteCalculator } = useContext(newsContext)
     
-
+    //totalVotes
     const sortedNews = allNews.sort((a, b) => b.votes - a.votes)
     
+    console.log(allNews)
+
     useEffect(() => {
         getNews()
       }, [])
@@ -25,7 +27,7 @@ export const Public = () => {
                 </div>
             <h2>All Posts</h2>
             <div>
-                {allNews.map(post => 
+                {sortedNews.map(post => 
                     <News 
                         {...post}
                         username={post.user?.username}

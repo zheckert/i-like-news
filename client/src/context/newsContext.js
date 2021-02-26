@@ -54,18 +54,18 @@ export const ContextProvider = (props) => {
             .catch(error => console.log(error))
     }
 
-    const editComment = (commentId) => {
-        userAxios.put(`/api/comment/${commentId}`)
+    const editComment = (commentId, updatedComment, newsId) => {
+        userAxios.put(`/api/comment/${newsId}/${commentId}`, updatedComment)
             .then(response => {
                 setComments(prevComment => prevComment.map(comment => comment._id !== commentId ? comment : response.data))
             })
             .catch(error => console.log(error))
     }
 
-    const deleteComment = (commentId) => {
-        userAxios.delete(`/api/comment/${commentId}`)
+    const deleteComment = (key) => {
+        userAxios.delete(`/api/comment/${key}`)
             .then(response => {
-                setComments(prevComments => prevComments.filter(comment => comment._id !== commentId))
+                setComments(prevComments => prevComments.filter(comment => comment._id !== key))
             })
             .catch(error => console.log(error))
     }
@@ -96,7 +96,8 @@ export const ContextProvider = (props) => {
     const voteCalculator = (post) => {
         let upVotes = post.votes.filter(vote => vote.voteType === "Up").length
 	    let downVotes = post.votes.filter(vote => vote.voteType === "Down").length
-        return upVotes - downVotes
+        let total = upVotes - downVotes
+        return total
     }
 
     return(

@@ -1,13 +1,12 @@
 import React, { useState, useContext } from "react"
 import { newsContext } from "../../context/newsContext"
 
-const initialInputs = {
-    comment: "",
-}
+const initialInputs = { comment: "" }
 
 export const CommentForm = (props) => {
+    const { addComment } = useContext(newsContext)
+    const { id, close, submit, commentId, postId } = props
     const [inputs, setInputs] = useState(initialInputs)
-    const { addComment, } = useContext(newsContext)
 
     const handleChange = (e) => {
         const {name, value} = e.target
@@ -34,6 +33,7 @@ export const CommentForm = (props) => {
                 value={comment}
                 onChange={handleChange}
                 placeholder="Type your goofy thoughts out here"
+                
             />
             <button onClick={handleSubmit}>Post</button>
         </form>

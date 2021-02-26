@@ -43,10 +43,10 @@ newsRouter.post("/", (request, response, next) => {
 
 //edit a news post
 //tried passing in post after user but it didn't work: post: request.post 
-newsRouter.put("/:newsId", (request, response, next) => {
-    News.findOneAndUpdate(
-        console.log("edit log", request.post),
-        { _id: request.params.newsId, user: request.user._id, post: request.post, },
+newsRouter.put("/:commentId", (request, response, next) => {
+    Comment.findOneAndUpdate(
+
+        { _id: request.params.commentId, user: request.user._id, post: request.params.newsId, },
         request.body,
         { new: true },
         (error, editedPost) => {
@@ -59,16 +59,16 @@ newsRouter.put("/:newsId", (request, response, next) => {
     )
 })
 
-//delete a news post
-newsRouter.delete("comment/:newsId", (request, response, next) => {
-    News.findOneAndDelete(
+//delete a COMMENT
+newsRouter.delete("/comment/:commentId", (request, response, next) => {
+    Comment.findOneAndDelete(
         { _id: request.params.newsId, user: request.user._id },
-        (error, deletedPost) => {
+        (error, deletedComment) => {
             if(error){
                 response.status(500)
                 return next(error)
             }
-            return response.status(201).send(`"${deletedPost.title}" removed successfully!`)
+            return response.status(201).send(`"${deletedComment.title}" removed successfully!`)
         }
     )
 })
@@ -95,7 +95,8 @@ newsRouter.put("/downvote/:newsId", (request, response, next) => {
     let user = request.user
     News.findOneAndUpdate(
         { _id: request.params.newsId },
-        { $addToSet: { votes: { user: user, voteType: "Down" } } },
+        // { $addToSet: { votes: { user: user, voteType: "Down" } } }, apparently the code works below? RIGHT NOW YOU CANT VOTE LESS THAN 0
+        { $pull: { votes: { user: user, voteType: "Up" } } },
         (error, updatedPost) => {
             if (error) {
                 response.status(500)

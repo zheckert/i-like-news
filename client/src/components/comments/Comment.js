@@ -4,7 +4,7 @@ import { UserContext } from "../../context/UserProvider"
 import { CommentForm } from "./CommentForm"
 
 export const Comment = (props) => {
-    const { commentId, comment, userId, username, _id} = props
+    const { commentId, postId, comment, userId, username, _id, key, TESTPROP} = props
     const { deleteComment, editComment } = useContext(newsContext)
     const { user } = useContext(UserContext)
 
@@ -14,6 +14,7 @@ export const Comment = (props) => {
         setCommentFormEdit(prevEdit  => !prevEdit )
     }
 
+    // console.log("this is the id I need to pass in maybe?", TESTPROP)
     return(
         <div>
             {userId === user._id ?
@@ -23,7 +24,7 @@ export const Comment = (props) => {
                             <div>
                                 <p>{username}:{comment}
                                     <button 
-                                        onClick={() => deleteComment(commentId), console.log("This is another log", commentId)}>delete
+                                        onClick={() => deleteComment(TESTPROP._id)}>delete
                                     </button>
                                     <button 
                                         onClick={() => setCommentFormEdit(prevEdit => !prevEdit)}>edit
@@ -37,6 +38,8 @@ export const Comment = (props) => {
                                 id={_id}
                                 close={close}
                                 submit={editComment}
+                                commentId={commentId}
+                                postId={postId}
                             />
                         </>
                     }
