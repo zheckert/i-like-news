@@ -8,16 +8,17 @@ import { News } from "./news/News"
 export const Public = () => {
     const { addNews, getNews, allNews, voteCalculator } = useContext(newsContext)
     
-    //totalVotes
-    const sortedNews = allNews.sort((a, b) => b.votes - a.votes)
+     const sortedNews = allNews.sort((a, b) => {
+        return voteCalculator(b) - voteCalculator(a)
+        // b.votes - a.votes
+    })
     
-    console.log(allNews)
+    console.log("sorted news", sortedNews)
 
     useEffect(() => {
         getNews()
       }, [])
 
-    // console.log("the vote number", voteCalculator(allNews[0]))
 
     return(
         <div>
