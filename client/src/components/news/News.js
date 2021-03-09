@@ -11,7 +11,6 @@ export const News = (props) => {
     const { getComments, comments } = useContext(newsContext)
     const { title, description, username, _id, votes } = props
     
-
     return(
         <div>
             <h1>{title}</h1>

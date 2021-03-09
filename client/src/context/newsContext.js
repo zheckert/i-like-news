@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import axios from "axios"
 
-
 export const newsContext = React.createContext()
 
 const userAxios = axios.create()
